@@ -1,0 +1,58 @@
+[gd_scene load_steps=10 format=3 uid="uid://c4ltvci10c3tq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c2ibq"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(0.62352943, 0.10980392, 0.09803922, 1)
+billboard_mode = 2
+billboard_keep_scale = true
+
+[sub_resource type="Gradient" id="Gradient_c2ibq"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_j4qnp"]
+gradient = SubResource("Gradient_c2ibq")
+
+[sub_resource type="CurveTexture" id="CurveTexture_c2ibq"]
+
+[sub_resource type="Curve" id="Curve_j4qnp"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_fpfj3"]
+curve = SubResource("Curve_j4qnp")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sc1dx"]
+spread = 131.087
+initial_velocity_max = 3.0
+radial_velocity_min = 9.999977
+radial_velocity_max = 9.999977
+radial_velocity_curve = SubResource("CurveTexture_c2ibq")
+scale_min = 0.01
+scale_max = 0.049999997
+scale_curve = SubResource("CurveTexture_fpfj3")
+color_ramp = SubResource("GradientTexture1D_j4qnp")
+
+[sub_resource type="QuadMesh" id="QuadMesh_kjvhd"]
+
+[sub_resource type="GDScript" id="GDScript_5tuhn"]
+resource_name = "deathfx"
+script/source = "extends GPUParticles3D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	emitting = true
+	connect(\"finished\", queue_free)
+"
+
+[node name="DeathVFX" type="GPUParticles3D" unique_id=1213306312]
+material_override = SubResource("StandardMaterial3D_c2ibq")
+emitting = false
+amount = 320
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_sc1dx")
+draw_pass_1 = SubResource("QuadMesh_kjvhd")
+script = SubResource("GDScript_5tuhn")

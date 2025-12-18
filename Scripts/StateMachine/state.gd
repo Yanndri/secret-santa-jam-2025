@@ -8,11 +8,11 @@ var fps := 64 #Used for delta time, so when lagging it is still consistent
 #NOTE : the owner should have a class_name, and replace the CharacterPlatformer with the class_name of your character
 
 #When the state was initialized by the owner by current_state.enter, this will be called
-func enter(owner: CharacterPlatformer) -> void:
+func enter(_owner: CharacterPlatformer) -> void:
 	pass
 
-func update(owner: CharacterPlatformer, delta: float) -> void:
+func update(_owner: CharacterPlatformer, delta: float) -> void:
 	pass
 
-func exit(owner: CharacterPlatformer) -> void:
+func exit(_owner: CharacterPlatformer) -> void:
 	pass

@@ -1,14 +1,54 @@
-[gd_scene load_steps=36 format=3 uid="uid://c62febq2sxgjy"]
+[gd_scene load_steps=88 format=3 uid="uid://c62febq2sxgjy"]
 
 [ext_resource type="Script" uid="uid://dfbm1j4e0kwaa" path="res://Scripts/States3D/player3D.gd" id="1_03owx"]
+[ext_resource type="Shader" uid="uid://cylm6s4de72pg" path="res://Art/dither.gdshader" id="1_5tuhn"]
+[ext_resource type="MeshLibrary" uid="uid://344fa4h5a1mh" path="res://MeshLibrary/kenny_meshes.tres" id="1_sc1dx"]
 [ext_resource type="Script" uid="uid://oew4fmufutlk" path="res://Scripts/camera_3d.gd" id="2_r0du0"]
 [ext_resource type="Texture2D" uid="uid://chjbqu7sujsmg" path="res://Art/HandDrivingCar.png" id="2_uu6xs"]
 [ext_resource type="Texture2D" uid="uid://b2uktc52gk8o6" path="res://Art/SBS - Tiny Texture Pack 2 - 128x128/128x128/Tile/Tile_01-128x128.png" id="3_3dxm6"]
 [ext_resource type="Texture2D" uid="uid://cy5iu1q08k1xn" path="res://Art/demon1walk.png" id="4_3dxm6"]
 [ext_resource type="Texture2D" uid="uid://wdhv7wy0t8w4" path="res://Art/demon1attack.png" id="4_lgr22"]
 [ext_resource type="PackedScene" uid="uid://dtcm5gftx5qb3" path="res://addons/modded_settings/settings.tscn" id="5_fos0i"]
+[ext_resource type="Texture2D" uid="uid://cuwqu42a1qrj3" path="res://Art/fistlefthook.png" id="6_5vvyt"]
+[ext_resource type="Texture2D" uid="uid://bfwlulragjomf" path="res://Art/fistattack.png" id="6_20pc6"]
+[ext_resource type="Script" uid="uid://cajb8k5ya6xt" path="res://Scripts/punch_range.gd" id="7_c6i3y"]
+[ext_resource type="Script" uid="uid://drly54iw3ik4e" path="res://Scripts/enemy.gd" id="7_wkp8b"]
 [ext_resource type="Texture2D" uid="uid://de7b5lu1s51rb" path="res://Art/clenchhand.png" id="8_03owx"]
+[ext_resource type="Texture2D" uid="uid://c8k0d6wdynx05" path="res://Art/bloodoverlay.png" id="8_kjvhd"]
 [ext_resource type="Texture2D" uid="uid://d4ntbpvvf2wbe" path="res://Art/Explosion.png" id="8_trn2v"]
+[ext_resource type="Texture2D" uid="uid://b5528h4dgtxbk" path="res://Art/face_icons.png" id="9_2gh4u"]
+[ext_resource type="Texture2D" uid="uid://bka5fyilhvnrk" path="res://Art/SBS - Tiny Texture Pack 2 - 128x128/128x128/Brick/Brick_11-128x128.png" id="9_fpfj3"]
+[ext_resource type="Script" uid="uid://bncw578wlukui" path="res://Scripts/enemy_punch_range.gd" id="12_c2ibq"]
+[ext_resource type="PackedScene" uid="uid://c4ltvci10c3tq" path="res://death_vfx.tscn" id="15_j4qnp"]
+
+[sub_resource type="GDScript" id="GDScript_c2ibq"]
+script/source = "extends Node3D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	preload_particles()
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+func preload_shaders():
+	var dir := DirAccess.open(\"res://test\")
+	if dir == null: printerr(\"Could not open folder\"); return
+	dir.list_dir_begin()
+	for file: String in dir.get_files():
+		var resource := load(dir.get_current_dir() + \"/\" + file)
+		print(resource)
+
+func preload_particles():
+	var dir := DirAccess.open(\"res://Particles\")
+	if dir == null: printerr(\"Could not open folder\"); return
+	dir.list_dir_begin()
+	for file: String in dir.get_files():
+		var resource := load(dir.get_current_dir() + \"/\" + file)
+		print(resource)
+"
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fos0i"]
 
@@ -20,13 +60,309 @@ background_color = Color(0.5486915, 0.12457583, 0, 1)
 sky = SubResource("Sky_3dxm6")
 tonemap_mode = 2
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2gh4u"]
+shader = ExtResource("1_5tuhn")
+shader_parameter/u_bit_depth = 2
+shader_parameter/u_contrast = 2.0
+shader_parameter/u_offset = 2.0
+shader_parameter/u_dither_size = 2
+
+[sub_resource type="Gradient" id="Gradient_devvj"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_3b0ty"]
+gradient = SubResource("Gradient_devvj")
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uu6xs"]
 radius = 0.16455078
 height = 0.6332245
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_hhcpw"]
+atlas = ExtResource("8_03owx")
+region = Rect2(0, 0, 320, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mxvw5"]
+atlas = ExtResource("2_uu6xs")
+region = Rect2(0, 0, 320, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sqvbp"]
+atlas = ExtResource("6_5vvyt")
+region = Rect2(0, 0, 320, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hri7i"]
+atlas = ExtResource("6_5vvyt")
+region = Rect2(320, 0, 320, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w3rk5"]
+atlas = ExtResource("6_5vvyt")
+region = Rect2(640, 0, 320, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5mvff"]
+atlas = ExtResource("6_5vvyt")
+region = Rect2(0, 0, 320, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_devvj"]
+atlas = ExtResource("6_20pc6")
+region = Rect2(0, 0, 320, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3b0ty"]
+atlas = ExtResource("6_20pc6")
+region = Rect2(320, 0, 320, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bg4s2"]
+atlas = ExtResource("6_20pc6")
+region = Rect2(640, 0, 320, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xrxkg"]
+atlas = ExtResource("6_20pc6")
+region = Rect2(0, 0, 320, 200)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hhcpw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hhcpw")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mxvw5")
+}],
+"loop": false,
+"name": &"driving",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 0.2,
+"texture": SubResource("AtlasTexture_sqvbp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hri7i")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_w3rk5")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_5mvff")
+}],
+"loop": false,
+"name": &"leftpunch",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 0.2,
+"texture": SubResource("AtlasTexture_devvj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3b0ty")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_bg4s2")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_xrxkg")
+}],
+"loop": false,
+"name": &"punch",
+"speed": 5.0
+}]
+
+[sub_resource type="GDScript" id="GDScript_20pc6"]
+resource_name = "state_animation"
+script/source = "extends AnimatedSprite2D
+
+func _ready() -> void:
+	TweenUtility.bob_up_and_down(self, 10, 0.4, 0.4)
+"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_20pc6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_devvj"]
+bg_color = Color(0.3019608, 0.11372549, 0.09803922, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oye8v"]
+atlas = ExtResource("9_2gh4u")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_40n85"]
+atlas = ExtResource("9_2gh4u")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gb15f"]
+atlas = ExtResource("9_2gh4u")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sph85"]
+atlas = ExtResource("9_2gh4u")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o7g6l"]
+atlas = ExtResource("9_2gh4u")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vi5kq"]
+atlas = ExtResource("9_2gh4u")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5mkgo"]
+atlas = ExtResource("9_2gh4u")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ccbu"]
+atlas = ExtResource("9_2gh4u")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ny7u2"]
+atlas = ExtResource("9_2gh4u")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x3yn0"]
+atlas = ExtResource("9_2gh4u")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gngx1"]
+atlas = ExtResource("9_2gh4u")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jt61w"]
+atlas = ExtResource("9_2gh4u")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y1tbi"]
+atlas = ExtResource("9_2gh4u")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c2s76"]
+atlas = ExtResource("9_2gh4u")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f4ese"]
+atlas = ExtResource("9_2gh4u")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1w2xm"]
+atlas = ExtResource("9_2gh4u")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1w2xm"]
+animations = [{
+"frames": [{
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_oye8v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_40n85")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gb15f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sph85")
+}, {
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_o7g6l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vi5kq")
+}, {
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_oye8v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gb15f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_40n85")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o7g6l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sph85")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_5mkgo")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_3ccbu")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_5mkgo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3ccbu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ny7u2")
+}, {
+"duration": 0.4,
+"texture": SubResource("AtlasTexture_x3yn0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gngx1")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_jt61w")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_y1tbi")
+}, {
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_c2s76")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_f4ese")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_c2s76")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_f4ese")
+}, {
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_c2s76")
+}, {
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_c2s76")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_f4ese")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_c2s76")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_f4ese")
+}, {
+"duration": 10.0,
+"texture": SubResource("AtlasTexture_c2s76")
+}],
+"loop": true,
+"name": &"driving",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1w2xm")
+}],
+"loop": false,
+"name": &"take_damage",
+"speed": 1.0
+}]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_c2ibq"]
+size = Vector3(0.4, 0.5, 0.6)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lgr22"]
 albedo_texture = ExtResource("3_3dxm6")
-uv1_scale = Vector3(420, 420, 1)
+uv1_scale = Vector3(1280, 1280, 1)
 texture_filter = 2
 
 [sub_resource type="BoxMesh" id="BoxMesh_lgr22"]
@@ -36,78 +372,17 @@ size = Vector3(420, 1, 420)
 [sub_resource type="BoxShape3D" id="BoxShape3D_uu6xs"]
 size = Vector3(420, 1, 420)
 
-[sub_resource type="GDScript" id="GDScript_3dxm6"]
-script/source = "extends CharacterBody3D
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sc1dx"]
+transparency = 1
+shading_mode = 0
+albedo_texture = ExtResource("9_fpfj3")
+uv1_scale = Vector3(16, 24, 8)
 
-@export var speed: float = 1.0
-@export var gravity: float = 9.8
-@export var stop_distance: float = 1.0
-@export var player_path: NodePath = \"../Player\"   # assign Player node in editor
+[sub_resource type="BoxMesh" id="BoxMesh_kjvhd"]
+size = Vector3(2, 3, 0.5)
 
-var player: Node = null
-
-func _ready():
-	player = get_node(player_path)
-
-func _physics_process(delta):
-	if player == null:
-		return
-	
-	if is_knocked_back:
-		velocity.y -= gravity * delta
-		
-		# Apply friction to slow down
-		var friction = 8.0
-		velocity = velocity.move_toward(Vector3.ZERO, friction * delta)
-
-		var collision = move_and_slide()
-
-		# Stop knockback when slow enough or on collision
-		if velocity.length() < 0.2 or collision:
-			is_knocked_back = false
-
-		return
-
-	# Apply gravity (falling velocity)
-	if not is_on_floor():
-		velocity.y -= gravity * delta
-	else:
-		velocity.y = 0.0
-
-	# Direction toward player (XZ plane only)
-	var to_player = player.global_transform.origin - global_transform.origin
-	var horizontal_dir = Vector3(to_player.x, 0, to_player.z).normalized()
-
-	# Distance check
-	var distance = to_player.length()
-	if distance > stop_distance:
-		if not $AnimatedSprite3D.animation == \"default\" and not $AnimatedSprite3D.is_playing():
-			$AnimatedSprite3D.play(\"default\")
-		if $AnimatedSprite3D.animation == \"default\":
-			# Move toward player
-			velocity.x = horizontal_dir.x * speed
-			velocity.z = horizontal_dir.z * speed
-	else:
-		# Stop when close
-		velocity.x = 0
-		velocity.z = 0
-		$AnimatedSprite3D.play(\"attack\")
-
-	move_and_slide()
-
-var is_knocked_back : bool
-@export var knockback_stop_threshold: float = 0.5
-
-func apply_explosion_force(explosion_pos: Vector3, force: float, up: float):
-	print(\"BYEE\")
-	var dir = (global_transform.origin - explosion_pos).normalized()
-
-	# Add upward lift for a nicer arc
-	dir.y += up
-
-	velocity += dir.normalized() * force
-	is_knocked_back = true
-"
+[sub_resource type="BoxShape3D" id="BoxShape3D_fpfj3"]
+size = Vector3(2, 3, 0.5)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_20pc6"]
 atlas = ExtResource("4_lgr22")
@@ -140,13 +415,13 @@ region = Rect2(192, 0, 64, 64)
 [sub_resource type="SpriteFrames" id="SpriteFrames_20pc6"]
 animations = [{
 "frames": [{
-"duration": 1.0,
+"duration": 0.2,
 "texture": SubResource("AtlasTexture_20pc6")
 }, {
-"duration": 1.0,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_5vvyt")
 }, {
-"duration": 1.0,
+"duration": 2.0,
 "texture": SubResource("AtlasTexture_c6i3y")
 }],
 "loop": false,
@@ -171,33 +446,43 @@ animations = [{
 "speed": 2.0
 }]
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_j4qnp"]
+height = 0.5
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_c2ibq"]
+height = 0.5
+radius = 0.4
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_5tuhn"]
+height = 8.0
+radius = 6.0
+
 [sub_resource type="GDScript" id="GDScript_03owx"]
 resource_name = "Explosion"
 script/source = "extends Area3D
 
-@export var explosion_force: float = 10.0
-@export var upward_boost: float = 0.5   # optional
-
 func _ready() -> void:
 	$ExplosionArt.connect(\"animation_finished\", explosion_finished)
 
-func play_animation():
+func explode_area(pos : Vector3):
+	position = pos #Go to the area of pos position
+	
 	$ExplosionArt.play(\"default\")
 
-func explode():
-	play_animation()
-	var origin = global_transform.origin
-	
+func _on_body_entered(body: Node3D) -> void: #Now that the explosion is in the area, it will check for bodies
+	if body.is_in_group(\"enemy\"):
+		knockback_body() #gets knocked back from the explosion
+
+func knockback_body():
 	for body in get_overlapping_bodies():
 		if body.is_in_group(\"enemy\"):
-			body.apply_explosion_force(origin, explosion_force, upward_boost)
+			var origin = global_transform.origin
+			var explosion_force: float = 10.0
+			var upward_boost: float = 0.5   #How far will flew upward
+			body.apply_explosion_force(origin, explosion_force, upward_boost) #Knockback them
 
 func explosion_finished():
 	self.position = global_transform.origin + transform.basis.y * 100 #move far away so that no one elses touches it, this is for reuse purposes
-
-func _on_body_entered(body: Node3D) -> void:
-	if body.is_in_group(\"enemy\"):
-		explode()
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c2ibq"]
@@ -231,6 +516,9 @@ region = Rect2(384, 0, 64, 64)
 [sub_resource type="SpriteFrames" id="SpriteFrames_2gh4u"]
 animations = [{
 "frames": [{
+"duration": 0.1,
+"texture": null
+}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_c2ibq")
 }, {
@@ -240,13 +528,13 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_fpfj3")
 }, {
-"duration": 1.0,
+"duration": 2.0,
 "texture": SubResource("AtlasTexture_sc1dx")
 }, {
-"duration": 1.0,
+"duration": 2.0,
 "texture": SubResource("AtlasTexture_kjvhd")
 }, {
-"duration": 1.0,
+"duration": 2.0,
 "texture": SubResource("AtlasTexture_5tuhn")
 }, {
 "duration": 1.0,
@@ -254,12 +542,13 @@ animations = [{
 }],
 "loop": false,
 "name": &"default",
-"speed": 5.0
+"speed": 10.0
 }]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_trn2v"]
 
-[node name="Main2" type="Node3D" unique_id=445881015]
+[node name="Main" type="Node3D" unique_id=445881015]
+script = SubResource("GDScript_c2ibq")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=72072144]
 environment = SubResource("Environment_r0du0")
@@ -268,8 +557,27 @@ environment = SubResource("Environment_r0du0")
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
 
-[node name="Player" type="CharacterBody3D" parent="." unique_id=1651559140]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.7878914, 3.7187824)
+[node name="TextureRect" type="TextureRect" parent="." unique_id=162278356]
+visible = false
+material = SubResource("ShaderMaterial_2gh4u")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_3b0ty")
+
+[node name="GridMap" type="GridMap" parent="." unique_id=1480912216]
+mesh_library = ExtResource("1_sc1dx")
+cell_size = Vector3(1, 1, 1)
+data = {
+"cells": PackedInt32Array(65535, 5, 114, 65534, 5, 75)
+}
+
+[node name="Player" type="CharacterBody3D" parent="." unique_id=1651559140 groups=["player"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.7255964, 1.5302819)
+collision_layer = 16
+collision_mask = 49
 script = ExtResource("1_03owx")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=1238705022]
@@ -278,12 +586,61 @@ shape = SubResource("CapsuleShape3D_uu6xs")
 debug_color = Color(0, 0.827451, 0.38431373, 1)
 
 [node name="Camera3D" type="Camera3D" parent="Player" unique_id=37487740 node_paths=PackedStringArray("player")]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.23203659, 0)
 script = ExtResource("2_r0du0")
 player = NodePath("..")
 
-[node name="Sprite3D" type="Sprite3D" parent="Player" unique_id=362298304]
-texture = ExtResource("4_lgr22")
+[node name="CanvasLayer" type="CanvasLayer" parent="Player" unique_id=1816906735]
+
+[node name="States" type="AnimatedSprite2D" parent="Player/CanvasLayer" unique_id=360246472]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_hhcpw")
+animation = &"punch"
+autoplay = "default"
+centered = false
+script = SubResource("GDScript_20pc6")
+
+[node name="PanelContainer" type="PanelContainer" parent="Player/CanvasLayer" unique_id=1937052356]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -32.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_20pc6")
+
+[node name="PanelContainer" type="PanelContainer" parent="Player/CanvasLayer/PanelContainer" unique_id=580660091]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_devvj")
+
+[node name="Faces" type="AnimatedSprite2D" parent="Player/CanvasLayer/PanelContainer/PanelContainer" unique_id=741540905]
+unique_name_in_owner = true
+position = Vector2(16, 16)
+sprite_frames = SubResource("SpriteFrames_1w2xm")
+animation = &"driving"
+autoplay = "default"
+frame_progress = 0.4530374
+
+[node name="BloodOverlay" type="TextureRect" parent="Player/CanvasLayer" unique_id=981512046]
+unique_name_in_owner = true
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("8_kjvhd")
+
+[node name="PunchRange" type="Area3D" parent="Player" unique_id=1464538887]
+unique_name_in_owner = true
+collision_mask = 49
+script = ExtResource("7_c6i3y")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player/PunchRange" unique_id=1503191263]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.002423808, 0.010620117, -0.26081204)
+shape = SubResource("BoxShape3D_c2ibq")
+debug_color = Color(0.99215686, 0, 0.23529412, 1)
 
 [node name="Ground" type="StaticBody3D" parent="." unique_id=1369322231]
 metadata/_edit_lock_ = true
@@ -295,9 +652,23 @@ mesh = SubResource("BoxMesh_lgr22")
 shape = SubResource("BoxShape3D_uu6xs")
 debug_color = Color(0, 0.6, 0.69803923, 1)
 
+[node name="Wall" type="StaticBody3D" parent="Ground" unique_id=553857441]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1582303, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/Wall" unique_id=1624647212]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9908599, 0)
+material_override = SubResource("StandardMaterial3D_sc1dx")
+mesh = SubResource("BoxMesh_kjvhd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/Wall" unique_id=755633712]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9908599, 0)
+shape = SubResource("BoxShape3D_fpfj3")
+
 [node name="Enemy" type="CharacterBody3D" parent="." unique_id=965023020 groups=["enemy"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.7529984, 0)
-script = SubResource("GDScript_3dxm6")
+collision_layer = 32
+collision_mask = 17
+script = ExtResource("7_wkp8b")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy" unique_id=1518475982]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.006034851, 0)
@@ -310,21 +681,31 @@ texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_20pc6")
 animation = &"attack"
 autoplay = "default"
-frame = 2
-frame_progress = 1.0
 
-[node name="Driving" type="TextureRect" parent="Enemy" unique_id=1820107782]
-unique_name_in_owner = true
-offset_right = 320.0
-offset_bottom = 200.0
-texture = ExtResource("2_uu6xs")
+[node name="EnemyPunchRange" type="Area3D" parent="Enemy" unique_id=1503766310]
+collision_layer = 0
+collision_mask = 16
+script = ExtResource("12_c2ibq")
 
-[node name="Clench" type="TextureRect" parent="Enemy" unique_id=1219201581]
-unique_name_in_owner = true
-visible = false
-offset_right = 320.0
-offset_bottom = 200.0
-texture = ExtResource("8_03owx")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy/EnemyPunchRange" unique_id=883230880]
+shape = SubResource("CylinderShape3D_j4qnp")
+debug_color = Color(0.99215686, 0, 0.23529412, 1)
+
+[node name="AttackDetectionRange" type="Area3D" parent="Enemy" unique_id=1248749601]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy/AttackDetectionRange" unique_id=282466964]
+shape = SubResource("CylinderShape3D_c2ibq")
+debug_color = Color(0.99215686, 0.50980395, 0.23529412, 1)
+
+[node name="PlayerDetectionRange" type="Area3D" parent="Enemy" unique_id=1529086161]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy/PlayerDetectionRange" unique_id=1400115566]
+shape = SubResource("CylinderShape3D_5tuhn")
+debug_color = Color(0.99215686, 1, 0.23529412, 1)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1780424830]
 
@@ -340,18 +721,27 @@ layout_mode = 0
 
 [node name="Explosion" type="Area3D" parent="." unique_id=2034314018]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.229843, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.429474, 0)
+collision_layer = 0
+collision_mask = 32
 script = SubResource("GDScript_03owx")
 
 [node name="ExplosionArt" type="AnimatedSprite3D" parent="Explosion" unique_id=936256872]
 billboard = 1
 texture_filter = 2
 sprite_frames = SubResource("SpriteFrames_2gh4u")
-frame = 6
-frame_progress = 1.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Explosion" unique_id=1573966325]
 shape = SubResource("SphereShape3D_trn2v")
 debug_color = Color(0.9607843, 0.2, 0, 1)
 
+[node name="Particles" type="Node" parent="." unique_id=884078595]
+
+[node name="DeathVFX" parent="Particles" unique_id=1213306312 instance=ExtResource("15_j4qnp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.1854057, 0)
+
+[connection signal="body_entered" from="Enemy/AttackDetectionRange" to="Enemy/EnemyPunchRange" method="_on_attack_detection_range_body_entered"]
+[connection signal="body_exited" from="Enemy/AttackDetectionRange" to="Enemy/EnemyPunchRange" method="_on_attack_detection_range_body_exited"]
+[connection signal="body_entered" from="Enemy/PlayerDetectionRange" to="Enemy" method="_on_player_detection_range_body_entered"]
+[connection signal="body_exited" from="Enemy/PlayerDetectionRange" to="Enemy" method="_on_player_detection_range_body_exited"]
 [connection signal="body_entered" from="Explosion" to="Explosion" method="_on_body_entered"]

@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://2o2wlxqgta1k"
+path="res://.godot/imported/fence-corner.obj-d86a784345d73b13b30f077e22b994ab.mesh"
+
+[deps]
+
+files=["res://.godot/imported/fence-corner.obj-d86a784345d73b13b30f077e22b994ab.mesh"]
+
+source_file="res://Art/kenney_platformer-kit/Models/OBJ format/fence-corner.obj"
+dest_files=["res://.godot/imported/fence-corner.obj-d86a784345d73b13b30f077e22b994ab.mesh", "res://.godot/imported/fence-corner.obj-d86a784345d73b13b30f077e22b994ab.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

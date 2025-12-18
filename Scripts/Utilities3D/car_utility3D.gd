@@ -11,7 +11,11 @@ static func update_car(owner : CharacterBody3D):
 	if Input.is_action_just_pressed("down"): #Brake
 		brake(owner)
 		return
-	owner.velocity = -owner.transform.basis.z * car_speed
+	
+	#Move the owner to where he's facing multiplied by car speed
+	var forward = -owner.transform.basis.z
+	owner.velocity.x = forward.x * car_speed
+	owner.velocity.z = forward.z * car_speed 
 
 static var car_brake: float = 1.0   # how fast the car slows down
 static func brake(owner) -> bool: #Stop the car
