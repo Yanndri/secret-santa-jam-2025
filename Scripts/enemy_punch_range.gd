@@ -17,16 +17,10 @@ func _on_frame_changed():
 			hit_player()
 
 func hit_player():
-	var hit_something : bool
 	for body in get_overlapping_bodies(): #Get all bodies in range
 		if body.is_in_group("player"): #get the player
-			hit_something = true #We could technically just put the block of code below here and erase the hit_something variable
 			#but since this is inside a for loop, there might be a time when there are more than 1 player in range
 			body.get_hit() 
-	
-	if hit_something:
-		EngineUtility.freeze_frame(self, 0.05, 0.3)
-		CameraUtility3D.fov_kick(%Camera3D, 24, 0.1, 0.6)
 
 func _on_attack_detection_range_body_entered(body: Node3D) -> void:
 	if body.is_in_group("player"): #Check if player is in range of an attack

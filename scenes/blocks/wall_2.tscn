@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://bhib61ee6gp38"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_devvj"]
+load_path = "res://.godot/imported/Brick_11-128x128.png-2e26cd47ce4f28f104931f4a5972c3ca.s3tc.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i8pcr"]
+albedo_texture = SubResource("CompressedTexture2D_devvj")
+uv1_scale = Vector3(10, 2.5, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pnwa0"]
+size = Vector3(1, 0.5, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6bwbq"]
+
+[node name="Wall2" type="Node3D" unique_id=992566222]
+
+[node name="Wall2" type="MeshInstance3D" parent="." unique_id=203550118]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 2.119482)
+material_override = SubResource("StandardMaterial3D_i8pcr")
+mesh = SubResource("BoxMesh_pnwa0")
+
+[node name="Wall2" type="StaticBody3D" parent="Wall2" unique_id=1405000473]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall2/Wall2" unique_id=1410196415]
+shape = SubResource("BoxShape3D_6bwbq")

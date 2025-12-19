@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://bfbwu87vu7h34"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_mxvw5"]
+load_path = "res://.godot/imported/Brick_11-128x128.png-2e26cd47ce4f28f104931f4a5972c3ca.s3tc.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yi54n"]
+albedo_texture = SubResource("CompressedTexture2D_mxvw5")
+uv1_scale = Vector3(10, 7.5, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_nf3b6"]
+left_to_right = 1.0
+size = Vector3(2, 1.5, 1)
+subdivide_width = 12
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_1frds"]
+points = PackedVector3Array(1, 0.75, 0.5, 1, -0.75, 0.5, 1, 0.75, -0.5, -1, -0.75, 0.5, 1, -0.75, -0.5, -1, -0.75, -0.5)
+
+[node name="Ramp1" type="Node3D" unique_id=1476561166]
+
+[node name="Ramp1" type="MeshInstance3D" parent="." unique_id=526051751]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4817171, 0.75, 0.03136152)
+material_override = SubResource("StandardMaterial3D_yi54n")
+mesh = SubResource("PrismMesh_nf3b6")
+
+[node name="Ramp1" type="StaticBody3D" parent="Ramp1" unique_id=1462325686]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4817171, 0, -0.03136152)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ramp1/Ramp1" unique_id=1272234860]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4817171, 0, 0.03136152)
+shape = SubResource("ConvexPolygonShape3D_1frds")

@@ -1,25 +1,26 @@
-[gd_scene load_steps=88 format=3 uid="uid://c62febq2sxgjy"]
+[gd_scene load_steps=83 format=3 uid="uid://c62febq2sxgjy"]
 
 [ext_resource type="Script" uid="uid://dfbm1j4e0kwaa" path="res://Scripts/States3D/player3D.gd" id="1_03owx"]
 [ext_resource type="Shader" uid="uid://cylm6s4de72pg" path="res://Art/dither.gdshader" id="1_5tuhn"]
-[ext_resource type="MeshLibrary" uid="uid://344fa4h5a1mh" path="res://MeshLibrary/kenny_meshes.tres" id="1_sc1dx"]
+[ext_resource type="Texture2D" uid="uid://dus0d8y3d7j7r" path="res://Art/panorama2.png" id="1_devvj"]
 [ext_resource type="Script" uid="uid://oew4fmufutlk" path="res://Scripts/camera_3d.gd" id="2_r0du0"]
 [ext_resource type="Texture2D" uid="uid://chjbqu7sujsmg" path="res://Art/HandDrivingCar.png" id="2_uu6xs"]
-[ext_resource type="Texture2D" uid="uid://b2uktc52gk8o6" path="res://Art/SBS - Tiny Texture Pack 2 - 128x128/128x128/Tile/Tile_01-128x128.png" id="3_3dxm6"]
-[ext_resource type="Texture2D" uid="uid://cy5iu1q08k1xn" path="res://Art/demon1walk.png" id="4_3dxm6"]
-[ext_resource type="Texture2D" uid="uid://wdhv7wy0t8w4" path="res://Art/demon1attack.png" id="4_lgr22"]
+[ext_resource type="MeshLibrary" uid="uid://oi6jdbwbertp" path="res://MeshLibrary/mesh_lib_doom.tres" id="3_2gh4u"]
 [ext_resource type="PackedScene" uid="uid://dtcm5gftx5qb3" path="res://addons/modded_settings/settings.tscn" id="5_fos0i"]
 [ext_resource type="Texture2D" uid="uid://cuwqu42a1qrj3" path="res://Art/fistlefthook.png" id="6_5vvyt"]
 [ext_resource type="Texture2D" uid="uid://bfwlulragjomf" path="res://Art/fistattack.png" id="6_20pc6"]
 [ext_resource type="Script" uid="uid://cajb8k5ya6xt" path="res://Scripts/punch_range.gd" id="7_c6i3y"]
-[ext_resource type="Script" uid="uid://drly54iw3ik4e" path="res://Scripts/enemy.gd" id="7_wkp8b"]
 [ext_resource type="Texture2D" uid="uid://de7b5lu1s51rb" path="res://Art/clenchhand.png" id="8_03owx"]
 [ext_resource type="Texture2D" uid="uid://c8k0d6wdynx05" path="res://Art/bloodoverlay.png" id="8_kjvhd"]
 [ext_resource type="Texture2D" uid="uid://d4ntbpvvf2wbe" path="res://Art/Explosion.png" id="8_trn2v"]
 [ext_resource type="Texture2D" uid="uid://b5528h4dgtxbk" path="res://Art/face_icons.png" id="9_2gh4u"]
-[ext_resource type="Texture2D" uid="uid://bka5fyilhvnrk" path="res://Art/SBS - Tiny Texture Pack 2 - 128x128/128x128/Brick/Brick_11-128x128.png" id="9_fpfj3"]
-[ext_resource type="Script" uid="uid://bncw578wlukui" path="res://Scripts/enemy_punch_range.gd" id="12_c2ibq"]
+[ext_resource type="Texture2D" uid="uid://dl314655a17ys" path="res://Art/SBS - Tiny Texture Pack 2 - 128x128/128x128/Tile/Tile_02-128x128.png" id="13_devvj"]
+[ext_resource type="PackedScene" uid="uid://8rr4wmc0oh07" path="res://scenes/enemy.tscn" id="14_devvj"]
 [ext_resource type="PackedScene" uid="uid://c4ltvci10c3tq" path="res://death_vfx.tscn" id="15_j4qnp"]
+[ext_resource type="Texture2D" uid="uid://dpmbfrcx113yk" path="res://Art/director.png" id="19_devvj"]
+[ext_resource type="FontFile" uid="uid://ddmdsmonm5ly7" path="res://Fonts/amazdoom/AmazDooMLeft.ttf" id="20_bg4s2"]
+[ext_resource type="Script" uid="uid://bmu5p3pla6pma" path="res://Scripts/director_dialogue.gd" id="21_hhcpw"]
+[ext_resource type="FontFile" uid="uid://ddkgdx0mtgsf0" path="res://Fonts/amazdoom/AmazDooMRight2.ttf" id="22_hhcpw"]
 
 [sub_resource type="GDScript" id="GDScript_c2ibq"]
 script/source = "extends Node3D
@@ -50,15 +51,17 @@ func preload_particles():
 		print(resource)
 "
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fos0i"]
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_3b0ty"]
+panorama = ExtResource("1_devvj")
 
-[sub_resource type="Sky" id="Sky_3dxm6"]
-sky_material = SubResource("ProceduralSkyMaterial_fos0i")
+[sub_resource type="Sky" id="Sky_bg4s2"]
+sky_material = SubResource("PanoramaSkyMaterial_3b0ty")
 
 [sub_resource type="Environment" id="Environment_r0du0"]
+background_mode = 2
 background_color = Color(0.5486915, 0.12457583, 0, 1)
-sky = SubResource("Sky_3dxm6")
-tonemap_mode = 2
+sky = SubResource("Sky_bg4s2")
+sky_rotation = Vector3(0, 3.6023595, 0)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2gh4u"]
 shader = ExtResource("1_5tuhn")
@@ -361,7 +364,7 @@ animations = [{
 size = Vector3(0.4, 0.5, 0.6)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lgr22"]
-albedo_texture = ExtResource("3_3dxm6")
+albedo_texture = ExtResource("13_devvj")
 uv1_scale = Vector3(1280, 1280, 1)
 texture_filter = 2
 
@@ -372,90 +375,79 @@ size = Vector3(420, 1, 420)
 [sub_resource type="BoxShape3D" id="BoxShape3D_uu6xs"]
 size = Vector3(420, 1, 420)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sc1dx"]
-transparency = 1
-shading_mode = 0
-albedo_texture = ExtResource("9_fpfj3")
-uv1_scale = Vector3(16, 24, 8)
-
-[sub_resource type="BoxMesh" id="BoxMesh_kjvhd"]
-size = Vector3(2, 3, 0.5)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_fpfj3"]
-size = Vector3(2, 3, 0.5)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_20pc6"]
-atlas = ExtResource("4_lgr22")
-region = Rect2(0, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5vvyt"]
-atlas = ExtResource("4_lgr22")
-region = Rect2(64, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_c6i3y"]
-atlas = ExtResource("4_lgr22")
+[sub_resource type="AtlasTexture" id="AtlasTexture_38apo"]
+atlas = ExtResource("19_devvj")
 region = Rect2(128, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_lgr22"]
-atlas = ExtResource("4_3dxm6")
-region = Rect2(0, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_trn2v"]
-atlas = ExtResource("4_3dxm6")
-region = Rect2(64, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_03owx"]
-atlas = ExtResource("4_3dxm6")
-region = Rect2(128, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wkp8b"]
-atlas = ExtResource("4_3dxm6")
+[sub_resource type="AtlasTexture" id="AtlasTexture_pljue"]
+atlas = ExtResource("19_devvj")
 region = Rect2(192, 0, 64, 64)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_20pc6"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_nx4yo"]
+atlas = ExtResource("19_devvj")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v8qla"]
+atlas = ExtResource("19_devvj")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rchyr"]
+atlas = ExtResource("19_devvj")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5tfui"]
+atlas = ExtResource("19_devvj")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_y1tbi"]
 animations = [{
 "frames": [{
-"duration": 0.2,
-"texture": SubResource("AtlasTexture_20pc6")
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_38apo")
 }, {
-"duration": 0.5,
-"texture": SubResource("AtlasTexture_5vvyt")
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pljue")
 }, {
-"duration": 2.0,
-"texture": SubResource("AtlasTexture_c6i3y")
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nx4yo")
 }],
 "loop": false,
-"name": &"attack",
-"speed": 2.0
+"name": &"action",
+"speed": 1.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_lgr22")
+"texture": SubResource("AtlasTexture_v8qla")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_trn2v")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_03owx")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wkp8b")
+"texture": SubResource("AtlasTexture_rchyr")
 }],
 "loop": true,
 "name": &"default",
-"speed": 2.0
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5tfui")
+}],
+"loop": false,
+"name": &"serious",
+"speed": 1.0
 }]
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_j4qnp"]
-height = 0.5
+[sub_resource type="GDScript" id="GDScript_hhcpw"]
+resource_name = "e_skip"
+script/source = "extends RichTextLabel
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_c2ibq"]
-height = 0.5
-radius = 0.4
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_5tuhn"]
-height = 8.0
-radius = 6.0
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	TweenUtility.bob_up_and_down(self, 2, 1, 1)
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
 
 [sub_resource type="GDScript" id="GDScript_03owx"]
 resource_name = "Explosion"
@@ -567,14 +559,16 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_3b0ty")
 
-[node name="GridMap" type="GridMap" parent="." unique_id=1480912216]
-mesh_library = ExtResource("1_sc1dx")
-cell_size = Vector3(1, 1, 1)
+[node name="GridMap" type="GridMap" parent="." unique_id=1527909764]
+mesh_library = ExtResource("3_2gh4u")
+cell_size = Vector3(0.5, 1, 1)
 data = {
-"cells": PackedInt32Array(65535, 5, 114, 65534, 5, 75)
+"cells": PackedInt32Array(65526, 1, 3, 65526, 2, 3, 65526, 3, 3, 65526, 0, 3, 65530, 3, 655363, 65530, 0, 655363, 131065, 1, 3, 131065, 2, 3, 65532, 2, 2, 65532, 1, 2, 65530, 1, 0, 65530, 2, 0, 196604, 1, 1, 196604, 2, 1, 196610, 1, 524289, 196610, 2, 524289, 196611, 1, 1, 196611, 2, 3, 262147, 65535, 1, 196612, 1, 524289, 196612, 2, 524289, 327684, 65535, 589824, 262149, 65535, 1441793, 327685, 0, 786433, 262150, 2, 1048577)
 }
+metadata/_editor_floor_ = Vector3(0, 5, 0)
 
 [node name="Player" type="CharacterBody3D" parent="." unique_id=1651559140 groups=["player"]]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.7255964, 1.5302819)
 collision_layer = 16
 collision_mask = 49
@@ -587,7 +581,7 @@ debug_color = Color(0, 0.827451, 0.38431373, 1)
 
 [node name="Camera3D" type="Camera3D" parent="Player" unique_id=37487740 node_paths=PackedStringArray("player")]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.23203659, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21304989, 0)
 script = ExtResource("2_r0du0")
 player = NodePath("..")
 
@@ -652,72 +646,70 @@ mesh = SubResource("BoxMesh_lgr22")
 shape = SubResource("BoxShape3D_uu6xs")
 debug_color = Color(0, 0.6, 0.69803923, 1)
 
-[node name="Wall" type="StaticBody3D" parent="Ground" unique_id=553857441]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1582303, 0)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/Wall" unique_id=1624647212]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9908599, 0)
-material_override = SubResource("StandardMaterial3D_sc1dx")
-mesh = SubResource("BoxMesh_kjvhd")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/Wall" unique_id=755633712]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9908599, 0)
-shape = SubResource("BoxShape3D_fpfj3")
-
-[node name="Enemy" type="CharacterBody3D" parent="." unique_id=965023020 groups=["enemy"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.7529984, 0)
-collision_layer = 32
-collision_mask = 17
-script = ExtResource("7_wkp8b")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy" unique_id=1518475982]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.006034851, 0)
-shape = SubResource("CapsuleShape3D_uu6xs")
-debug_color = Color(0, 0.827451, 0.38431373, 1)
-
-[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Enemy" unique_id=259324456]
-billboard = 2
-texture_filter = 0
-sprite_frames = SubResource("SpriteFrames_20pc6")
-animation = &"attack"
-autoplay = "default"
-
-[node name="EnemyPunchRange" type="Area3D" parent="Enemy" unique_id=1503766310]
-collision_layer = 0
-collision_mask = 16
-script = ExtResource("12_c2ibq")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy/EnemyPunchRange" unique_id=883230880]
-shape = SubResource("CylinderShape3D_j4qnp")
-debug_color = Color(0.99215686, 0, 0.23529412, 1)
-
-[node name="AttackDetectionRange" type="Area3D" parent="Enemy" unique_id=1248749601]
-collision_layer = 0
-collision_mask = 16
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy/AttackDetectionRange" unique_id=282466964]
-shape = SubResource("CylinderShape3D_c2ibq")
-debug_color = Color(0.99215686, 0.50980395, 0.23529412, 1)
-
-[node name="PlayerDetectionRange" type="Area3D" parent="Enemy" unique_id=1529086161]
-collision_layer = 0
-collision_mask = 16
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Enemy/PlayerDetectionRange" unique_id=1400115566]
-shape = SubResource("CylinderShape3D_5tuhn")
-debug_color = Color(0.99215686, 1, 0.23529412, 1)
+[node name="Enemy" parent="." unique_id=1843890749 instance=ExtResource("14_devvj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7330799, 8.922528, 0)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1780424830]
 
 [node name="Control" type="Control" parent="CanvasLayer" unique_id=1299078828]
 texture_filter = 3
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="settings" parent="CanvasLayer/Control" unique_id=1770953425 instance=ExtResource("5_fos0i")]
 layout_mode = 0
+
+[node name="DirectorPanel" type="PanelContainer" parent="CanvasLayer/Control" unique_id=374280986]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 19.0
+offset_bottom = 67.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/DirectorPanel" unique_id=616489798]
+layout_mode = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 56
+theme_override_constants/margin_bottom = 8
+
+[node name="directorAnimations" type="AnimatedSprite2D" parent="CanvasLayer/Control/DirectorPanel/MarginContainer" unique_id=1635810125]
+unique_name_in_owner = true
+position = Vector2(288, 15)
+sprite_frames = SubResource("SpriteFrames_y1tbi")
+animation = &"action"
+autoplay = "default"
+
+[node name="DirectorDialogue" type="RichTextLabel" parent="CanvasLayer/Control/DirectorPanel/MarginContainer" unique_id=457700943]
+texture_filter = 3
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_fonts/normal_font = ExtResource("20_bg4s2")
+bbcode_enabled = true
+text = "wait.............."
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("21_hhcpw")
+
+[node name="E_skip" type="RichTextLabel" parent="CanvasLayer/Control/DirectorPanel" unique_id=760151290]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/default_color = Color(0.68235296, 0.6431373, 0.7137255, 1)
+theme_override_fonts/bold_font = ExtResource("22_hhcpw")
+bbcode_enabled = true
+text = "[b]< Press E"
+fit_content = true
+vertical_alignment = 2
+script = SubResource("GDScript_hhcpw")
 
 [node name="Explosion" type="Area3D" parent="." unique_id=2034314018]
 unique_name_in_owner = true
@@ -740,8 +732,4 @@ debug_color = Color(0.9607843, 0.2, 0, 1)
 [node name="DeathVFX" parent="Particles" unique_id=1213306312 instance=ExtResource("15_j4qnp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.1854057, 0)
 
-[connection signal="body_entered" from="Enemy/AttackDetectionRange" to="Enemy/EnemyPunchRange" method="_on_attack_detection_range_body_entered"]
-[connection signal="body_exited" from="Enemy/AttackDetectionRange" to="Enemy/EnemyPunchRange" method="_on_attack_detection_range_body_exited"]
-[connection signal="body_entered" from="Enemy/PlayerDetectionRange" to="Enemy" method="_on_player_detection_range_body_entered"]
-[connection signal="body_exited" from="Enemy/PlayerDetectionRange" to="Enemy" method="_on_player_detection_range_body_exited"]
 [connection signal="body_entered" from="Explosion" to="Explosion" method="_on_body_entered"]
